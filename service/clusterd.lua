@@ -141,14 +141,14 @@ function command.reload(source, config)
 	skynet.ret(skynet.pack(nil))
 end
 
-function command.listen(source, addr, port, maxclient)
+function command.listen(source, addr, port, maxclient, nodelay)
 	local gate = skynet.newservice("gate")
 	if port == nil then
 		local address = assert(node_address[addr], addr .. " is down")
-		skynet.call(gate, "lua", "open", { address = address, port = port, maxclient = maxclient })
+		skynet.call(gate, "lua", "open", { address = address, port = port, maxclient = maxclient, nodelay = nodelay })
 		skynet.ret(skynet.pack(addr, port))
 	else
-		local realaddr, realport = skynet.call(gate, "lua", "open", { address = addr, port = port, maxclient = maxclient })
+		local realaddr, realport = skynet.call(gate, "lua", "open", { address = addr, port = port, maxclient = maxclient, nodelay = nodelay })
 		skynet.ret(skynet.pack(realaddr, realport))
 	end
 end
